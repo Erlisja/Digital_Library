@@ -1,9 +1,72 @@
-import React from 'react'
+import { useRef, useState, useEffect } from "react";
 
-function BookCarousel() {
+const BookCarousel = ({ category, author,fetchBooks,query }) => {
+
+  const itemsRef = useRef(null);   // Create a ref to store the items in the carousel 
+  const [books, setBooks] = useState([]);  // Create a state to store the books
+
+  // Fetch books when the component mounts
+  useEffect(() => {
+    const loadBooks = async () => {
+      const data = await fetchBooks({category,author,query});   // Fetch books based on the category, author
+      console.log(data);
+      setBooks(data.items || []);               // Set the books in the state
+    };
+    loadBooks();
+  }, [category,author,query, fetchBooks]);
+
+//   function scrollToId(itemId) {
+//     const map = getMap();
+//     const node = map.get(itemId);
+//     node.scrollIntoView({
+//       behavior: "smooth",
+//       block: "nearest",
+//       inline: "center",
+//     });
+//   }
+
+  function getMap() {
+    if (!itemsRef.current) {
+      itemsRef.current = new Map();
+    }
+    return itemsRef.current;
+  }
+
   return (
-    <div>BookCarousel</div>
-  )
-}
+    <div className="carousel-container">
+      <h2>{category || query}</h2>
+      {/* <nav>
+        {books.map((book, index) => (
+          <button key={index} onClick={() => scrollToId(index)}>
+            {book.volumeInfo.title}
+          </button>
+        ))}
+      </nav> */}
+      <div className="carousel">
+        <ul>
+          {books.map((book, index) => (
+            <li
+              key={book.id}
+              ref={(node) => {
+                const map = getMap();
+                if (node) {
+                  map.set(index, node);
+                } else {
+                  map.delete(index);
+                }
+              }}
+            >
+              <img
+                src={book.volumeInfo.imageLinks?.thumbnail}
+                alt={book.volumeInfo.title}
+              />
+              <p className="display-title">{book.volumeInfo.title}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+};
 
-export default BookCarousel
+export default BookCarousel;
