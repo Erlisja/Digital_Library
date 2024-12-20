@@ -1,5 +1,5 @@
-
 * {
+  font-family:'Lora', serif;
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -7,6 +7,7 @@
 
 .carousel-container {
   margin: 20px;
+  padding: 20px;
 }
 
 .carousel {
@@ -17,62 +18,168 @@
 
 .carousel ul {
   display: flex;
-  padding: 0;
+  padding: 20px;
   list-style-type: none;
 }
 
 .carousel li {
   flex: 0 0 auto;
-  margin: 0 10px;
-  text-align: center;
+  margin: 0 15px;
+  text-align: left;
+  transition: transform 0.5s;
+  
 }
 
 .carousel img {
   max-width: 150px;
-  height: auto;
+  height: 225px;
+  object-fit: cover;
   border-radius: 5px;
 }
+
+.carousel li:hover {
+  transform: scale(1.1);
+}
+.title{
+  font-weight: bold;
+  font-size: 0.9rem;text-overflow: ellipsis; /* Show ellipsis for overflow */
+  white-space: nowrap; /* Prevent the title from wrapping to the next line */
+  overflow: hidden; /* Hide the overflowing text */
+  max-width: 150px; /* Set a max width for the title */
+}
+
+.author{
+  font-size: 0.8rem;
+  font-weight: normal;
+  font-style: italic;
+  text-overflow: ellipsis; /* Show ellipsis for overflow */
+  white-space: nowrap; /* Prevent the title from wrapping to the next line */
+  overflow: hidden; /* Hide the overflowing text */
+  max-width: 150px; /* Set a max width for the title */
+}
+
 /* App.css */
 .app {
   display: flex;
   height: 100vh; /* Full viewport height */
+
 }
 
 nav {
-  width: 800px; /* Set width for the sidebar */
-  background-color: #f8f9fa; /* Light background */
-  height: 100%; /* Full height */
-  padding: 1rem;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Add a slight shadow */
+  display: flex;
+  width: 255px; /* Set width for the sidebar */
+  background-color: #003049; 
+  color: #FFFFFF;
+  padding-top: 2.5rem;
+  padding-left: 1rem;
+  
+  
+  position:fixed; 
+  top: 0; 
+  left: 0;
+  z-index: 1;
+  height: 100vh; 
+  flex-grow: 1;
+
 }
 
 nav ul {
   list-style: none;
   padding: 0;
+  color: #FFFFFF;
+
+
 }
 
 nav ul li {
   margin: 1rem 0;
+  font-size: 1.1rem;
+  padding:15px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: semi-bold;
+  font-style: italic;
+
+
+}
+
+nav ul li:hover {
+  background-color: #35536e;
+  border-radius: 5px;
+  transition: 0.3s;
+  transition: smooth;
+  padding-left: 10px;
+  
 }
 
 nav ul li a {
   text-decoration: none;
-  color: #333;
+  margin-top: 30px;
+  padding: 15px 5px;
+  color: #FFFFFF;
+}
+
+.search-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  
+
+}
+input{
+  padding-left: 5px;
+  margin-right: 5px;
+  border-radius: 5px;
+  border: 1px solid #35536e;
+}
+button{
+  background-color: #35536e;
+  color: #FFFFFF;
+  border: none;
+  padding: 0px 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 10px 0;
 }
 
 .main-content {
-  flex-grow: 1; /* Take up remaining space */
+  flex-grow: 2; 
   padding: 1rem;
-  overflow-y: auto; /* Enable scrolling if needed */
+  overflow-y: auto; 
+  margin-left: 250px; /* Prevent main content from overlapping with the sidebar */
+  padding: auto;
+  padding-top: 50px;
+  padding-bottom: 100px;
+  /* background-color: #fdf0d5; */
+  background-color: #EAEAEA;
 }
 
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 3fr));
+  gap: 1.5rem;
+}
+
+.book-card{
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  border-radius: 5px;
+
+}
+.book-card:hover{
+  transform: scale(1.1);
+  transition: 0.3s;
+  transition: smooth;
+}
 footer{
   display: flex;
   position: fixed;
   bottom: 0;
-  width: 100%;
+  right: 0;
+  width: 80%;
   text-align: center;
-  padding: 1rem;
+  padding: 0.5rem;
   color: white;
   background-color: #272727;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);

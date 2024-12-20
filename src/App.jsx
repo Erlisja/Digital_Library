@@ -38,12 +38,11 @@ function App() {
     <>
       <div className="app">
         <SideNav onSearch={handleSearch} onHomeClick={handleHomeClick}/>
-       
         
           <DisplayBooks  searchResults={searchResults} loading={loading}/> 
           
        
-        <Footer />
+        {/* <Footer /> */}
       </div>
       
     </>

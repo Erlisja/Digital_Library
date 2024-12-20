@@ -22,7 +22,7 @@ const getCachedData = (key) => {
     const cached = localStorage.getItem(key);
     if (cached) {
         const { data, timestamp } = JSON.parse(cached);
-        const oneMinute = 60 * 1000; // 1 minute expiration time
+        const oneMinute = 300 * 1000; // 1 minute expiration time
         if (new Date().getTime() - timestamp < oneMinute) {
             return data; // Return cached data if still valid
         }
@@ -34,15 +34,6 @@ const getCachedData = (key) => {
 const fetchBooks = async ({ query = '', category = '', author = '' }) => {
     const cacheKey = `${query}-${category}-${author}`;
     const cachedData = getCachedData(cacheKey);
-
-    if (cachedData) {
-        return cachedData; // Return cached data if exists
-    }
-
-    if (!canFetchAgain()) {
-        console.log('Rate limit exceeded. Please try again later.');
-        return null; // Return null if rate-limited
-    }
 
     if (cachedData) {
         return cachedData; // Return cached data if exists

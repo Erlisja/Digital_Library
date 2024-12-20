@@ -18,8 +18,8 @@ function SearchBar({ onSearch }) {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
+    <div >
+      <form className="search-bar" onSubmit={handleSubmit}>
         <input
           type="text"
           value={input}

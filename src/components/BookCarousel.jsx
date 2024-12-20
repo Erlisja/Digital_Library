@@ -61,8 +61,10 @@ const BookCarousel = ({ category, author,fetchBooks,query }) => {
               <img
                 src={book.volumeInfo.imageLinks?.thumbnail}
                 alt={book.volumeInfo.title}
-              />
-              <p className="display-title">{book.volumeInfo.title}</p>
+              />  
+              <h4 className="title">{book.volumeInfo.title}</h4>
+              <p className="author">{book.volumeInfo.authors?.join(", ")}</p>
+            
             </li>
           ))}
         </ul>

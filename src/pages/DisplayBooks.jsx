@@ -14,7 +14,7 @@ const DisplayBooks = ({ searchResults, loading }) => {
   ]; // categories to fetch books for the other carousels
 
   return (
-    <div>
+    <div className="main-content">
       {loading ? (
         <p>Loading...</p>
       ) : searchResults?.length > 0 ? (
@@ -25,16 +25,16 @@ const DisplayBooks = ({ searchResults, loading }) => {
                 src={book.volumeInfo.imageLinks?.thumbnail}
                 alt={book.volumeInfo.title}
               />
-              <h3>{book.volumeInfo.title}</h3>
-              <p>{book.volumeInfo.authors?.join(", ")}</p>
+              <h3 className="title">{book.volumeInfo.title}</h3>
+              <p className="author">{book.volumeInfo.authors?.join(", ")}</p>
             </div>
           ))}
         </div>
       ) : (
         <>
-          <div>
+       
             <BookCarousel key={query} query={query} fetchBooks={fetchBooks} /> {/* Display the BookCarousel component for the top carousel */}
-          </div>
+    
           {/* Display the BookCarousel component for each category */}
           <div>
             {categories.map((category) => (
