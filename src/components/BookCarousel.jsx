@@ -9,8 +9,10 @@ const BookCarousel = ({ category, author,fetchBooks,query }) => {
   useEffect(() => {
     const loadBooks = async () => {
       const data = await fetchBooks({category,author,query});   // Fetch books based on the category, author
-      console.log(data);
-      setBooks(data.items || []);               // Set the books in the state
+      console.log("API Response:", data);  
+      const filteredBooks = (data.items || []).filter(book =>book.volumeInfo.imageLinks?.thumbnail); // Filter out books without images
+      console.log(filteredBooks);
+      setBooks(filteredBooks || []);               // Set the books in the state
     };
     loadBooks();
   }, [category,author,query, fetchBooks]);
