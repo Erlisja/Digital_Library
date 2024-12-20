@@ -185,3 +185,28 @@ footer{
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
 
 }
+
+
+/* ..main-content {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+} */
+
+.book-cover img {
+  width: 250px;
+  height: auto;
+  border-radius: 8px;
+}
+
+.book-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.back-button {
+  margin-top: 5px;
+  padding: 5px 15px;
+  margin-bottom: 25px;
+}

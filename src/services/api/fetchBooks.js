@@ -31,7 +31,7 @@ const getCachedData = (key) => {
 };
 
 
-const fetchBooks = async ({ query = '', category = '', author = '' }) => {
+const fetchBooks = async ({ query = '', category = '', author = '', id}) => {
     const cacheKey = `${query}-${category}-${author}`;
     const cachedData = getCachedData(cacheKey);
 
@@ -50,9 +50,13 @@ const fetchBooks = async ({ query = '', category = '', author = '' }) => {
 
         // encode the search query to make it URL safe
         const encodedQuery = encodeURIComponent(searchTerms.join(' ')); // Space-separated query terms
-        const url = `${BASE_URL}?q=${encodedQuery}&maxResults=10&key=${API_KEY}`;
+        let url = `${BASE_URL}?q=${encodedQuery}&maxResults=10&key=${API_KEY}`;
 
         console.log('url', url);
+
+        if (id){
+             url = `${BASE_URL}/${id}?key=${API_KEY}`;   
+        }
 
         // make a fetch request to the Google Books API
         const response = await fetch(url);

@@ -1,9 +1,12 @@
 import { useRef, useState, useEffect } from "react";
+import { useNavigate } from "react-router";
+
 
 const BookCarousel = ({ category, author,fetchBooks,query }) => {
 
   const itemsRef = useRef(null);   // Create a ref to store the items in the carousel 
   const [books, setBooks] = useState([]);  // Create a state to store the books
+  const navigate = useNavigate();  // useNavigate hook to navigate to different route
 
   // Fetch books when the component mounts
   useEffect(() => {
@@ -34,6 +37,12 @@ const BookCarousel = ({ category, author,fetchBooks,query }) => {
     return itemsRef.current;
   }
 
+  // Handle click to navigate to book details
+  const handleBookClick = (bookId) => {
+    navigate(`/books/${bookId}`); // Navigate to book details page
+  };
+
+
   return (
     <div className="carousel-container">
       <h2>{category || query}</h2>
@@ -57,6 +66,7 @@ const BookCarousel = ({ category, author,fetchBooks,query }) => {
                   map.delete(index);
                 }
               }}
+              onClick={() => handleBookClick(book.id)} // Handle click on book
             >
               <img
                 src={book.volumeInfo.imageLinks?.thumbnail}

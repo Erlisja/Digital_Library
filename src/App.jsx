@@ -3,7 +3,8 @@ import Footer from './components/Footer'
 import SideNav from './components/SideNav'
 import { useState } from 'react'
 import fetchBooks  from './services/api/fetchBooks'
-
+import { Route, Routes } from 'react-router'
+import BookDetails from './pages/BookDetails'
 import './App.css'
 
 function App() {
@@ -36,15 +37,15 @@ function App() {
 
   return (
     <>
-      <div className="app">
-        <SideNav onSearch={handleSearch} onHomeClick={handleHomeClick}/>
-        
-          <DisplayBooks  searchResults={searchResults} loading={loading}/> 
-          
-       
+  <SideNav onSearch={handleSearch} onHomeClick={handleHomeClick}/>
+ <Routes>
+
+        <Route path='/' element= {<DisplayBooks  searchResults={searchResults} loading={loading}/> } />
+        <Route path='/books/:id' element ={<BookDetails />} />
+         
         {/* <Footer /> */}
-      </div>
       
+</Routes>
     </>
   )
 }
