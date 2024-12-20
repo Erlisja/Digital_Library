@@ -2,7 +2,6 @@
 
 const API_KEY = import.meta.env.VITE_GOOGLE_BOOKS_API_KEY;
 
-
 const BASE_URL = 'https://www.googleapis.com/books/v1/volumes';
 
 // use the localStorage API to cache the data and implement rate-limiting in the fetchBooks function
@@ -15,25 +14,22 @@ const BASE_URL = 'https://www.googleapis.com/books/v1/volumes';
 
 // Utility function to cache data
 const cacheData = (key, data) => {
-    localStorage.setItem(key, JSON.stringify(data));
+    localStorage.setItem(key, JSON.stringify({ data, timestamp: new Date().getTime() }));
 };
 
 // Utility function to get cached data
 const getCachedData = (key) => {
     const cached = localStorage.getItem(key);
-    return cached ? JSON.parse(cached) : null;
+    if (cached) {
+        const { data, timestamp } = JSON.parse(cached);
+        const oneMinute = 60 * 1000; // 1 minute expiration time
+        if (new Date().getTime() - timestamp < oneMinute) {
+            return data; // Return cached data if still valid
+        }
+    }
+    return null;
 };
 
-// Utility function to implement rate-limiting (example: 3 seconds interval)
-const canFetchAgain = () => {
-    const lastFetchTime = localStorage.getItem('lastFetchTime');
-    const currentTime = new Date().getTime();
-    if (lastFetchTime && currentTime - lastFetchTime < 3000) {
-        return false;
-    }
-    localStorage.setItem('lastFetchTime', currentTime);
-    return true;
-};
 
 const fetchBooks = async ({ query = '', category = '', author = '' }) => {
     const cacheKey = `${query}-${category}-${author}`;
@@ -47,6 +43,11 @@ const fetchBooks = async ({ query = '', category = '', author = '' }) => {
         console.log('Rate limit exceeded. Please try again later.');
         return null; // Return null if rate-limited
     }
+
+    if (cachedData) {
+        return cachedData; // Return cached data if exists
+    }
+
 
     try {
         // build the search query based on the search terms provided by the user 
@@ -70,13 +71,13 @@ const fetchBooks = async ({ query = '', category = '', author = '' }) => {
         if (data.items) {
             cacheData(cacheKey, data); // Cache the response
         }
-
         return data;
+
     } catch (error) {
-        console.log("Error fetching books", error);
+        console.error("Error fetching books", error);
+        return null;
     }
 }
-
 export default fetchBooks;
 
 
