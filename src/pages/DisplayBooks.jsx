@@ -23,6 +23,7 @@ const DisplayBooks = ({ searchResults, loading }) => {
 
   return (
     <div className="main-content ">
+      <h1>Home</h1>
       {loading ? (
         <p>Loading...</p>
       ) : searchResults?.length > 0 ? (

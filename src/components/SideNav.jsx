@@ -6,14 +6,15 @@ import { useState } from 'react'
 
 
 function SideNav({onSearch, onHomeClick}) {
-  const [searchResults, setSearchResults] = useState([]); // state to store the search results
 
 
   return (
 
-
-    <nav>
-      <ul>
+    <nav>  
+     <ul> 
+        <h4>Digital Library</h4>
+        <br/>  
+        {''}
         <SearchBar  onSearch={(query)=> onSearch(query)} />
         <li>
           <Link to="/" onClick={onHomeClick}>Home</Link>

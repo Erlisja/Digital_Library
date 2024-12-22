@@ -6,8 +6,11 @@
 }
 
 .carousel-container {
-  margin: 20px;
+  margin: 30px 0px 30px 20px;
+
   padding: 20px;
+  background: linear-gradient(180deg,#ffffffc1,#59a1c899,#002f49c1);
+  border-radius: 10px;
 }
 
 .carousel {
@@ -42,14 +45,15 @@
 }
 .title{
   font-weight: bold;
-  font-size: 0.9rem;text-overflow: ellipsis; /* Show ellipsis for overflow */
+  padding-top: 5px;
+  font-size: 1rem;text-overflow: ellipsis; /* Show ellipsis for overflow */
   white-space: nowrap; /* Prevent the title from wrapping to the next line */
   overflow: hidden; /* Hide the overflowing text */
   max-width: 150px; /* Set a max width for the title */
 }
 
 .author{
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   font-weight: normal;
   font-style: italic;
   text-overflow: ellipsis; /* Show ellipsis for overflow */
@@ -150,8 +154,8 @@ button{
   padding: auto;
   padding-top: 50px;
   padding-bottom: 100px;
-  /* background-color: #fdf0d5; */
   background-color: #EAEAEA;
+  height: 100vh;
 }
 
 .grid-container {
@@ -187,11 +191,6 @@ footer{
 }
 
 
-/* ..main-content {
-  display: flex;
-  gap: 20px;
-  align-items: flex-start;
-} */
 
 .book-cover img {
   width: 250px;

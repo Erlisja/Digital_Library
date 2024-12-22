@@ -4,22 +4,19 @@ import { FaBookmark } from "react-icons/fa"; // Import bookmark icon
 
 const Favorites = () => {
   const [favorites, setFavorites] = useState([]);
-  const [isBookmarked, setIsBookmarked] = useState(false);
+
 
   useEffect(() => {
     const savedBooks = JSON.parse(localStorage.getItem("favorites")) || [];   // Retrieve from localStorage
     setFavorites(savedBooks);
   }, []);
 
-  const handleBookmark = () => {
-    // Save to localStorage or state
-    const savedBooks = JSON.parse(localStorage.getItem("favorites")) || [];
-    if (!savedBooks.some((savedBook) => savedBook.id === book.id)) {
-      savedBooks.push(book);
-      localStorage.setItem("favorites", JSON.stringify(savedBooks));  // Save to localStorage
-      setIsBookmarked(true);
-    }
-  }
+  const handleBookmark = (book) => {
+    // Remove the book from favorites
+    const updatedFavorites = favorites.filter((favBook) => favBook.id !== book.id);
+    setFavorites(updatedFavorites); // Update state
+    localStorage.setItem("favorites", JSON.stringify(updatedFavorites)); // Update localStorage
+  };
 
   return (
     <div className="main-content">
@@ -30,14 +27,14 @@ const Favorites = () => {
         <div className="grid-container">
           {favorites.map((book) => (
             <div className="book-card" key={book.id}>
-               {/* Bookmark Button */}
-         <div className="bookmark-button" title={isBookmarked ? "Saved!" : "Save"}>
-          <FaBookmark
-            onClick={handleBookmark}
-            color={isBookmarked ? "gold" : "gray"}
-            size={30}
-          />
-        </div>
+              {/* Bookmark Button */}
+              <div className="bookmark-button" title="Remove from Favorites">
+                <FaBookmark
+                  onClick={() => handleBookmark(book)} // Call handleBookmark with the book
+                  color="gold" // Yellow since the book is favorited
+                  size={30}
+                />
+              </div>
               <Link to={`/books/${book.id}`}>    {/*Redirects the user to the book details page */}
                 <img src={book.volumeInfo.imageLinks?.thumbnail} alt={book.volumeInfo.title} />  
                 </Link>
