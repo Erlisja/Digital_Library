@@ -22,6 +22,9 @@ function SideNav({onSearch, onHomeClick}) {
           <Link to="/books">Books</Link>
         </li>
         <li>
+          <Link to="/favorites">Favorites</Link>
+        </li>
+        <li>
           <Link to="/authors">Authors</Link>
         </li>
       </ul>

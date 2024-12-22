@@ -5,6 +5,8 @@ import { useState } from 'react'
 import fetchBooks  from './services/api/fetchBooks'
 import { Route, Routes } from 'react-router'
 import BookDetails from './pages/BookDetails'
+import Favorites from './pages/Favorites'
+
 import './App.css'
 
 function App() {
@@ -33,6 +35,8 @@ function App() {
     setQuery(''); // Reset query
   };
 
+  
+
 
 
   return (
@@ -42,6 +46,8 @@ function App() {
 
         <Route path='/' element= {<DisplayBooks  searchResults={searchResults} loading={loading}/> } />
         <Route path='/books/:id' element ={<BookDetails />} />
+        <Route path="/favorites" element={<Favorites />} />
+       
          
         {/* <Footer /> */}
       

@@ -1,26 +1,41 @@
-import { useParams } from "react-router";
+import { Link, useParams } from "react-router";
 import { useEffect, useState } from "react";
 import fetchBook from "../services/api/fetchBooks";
+import { FaBookmark } from "react-icons/fa"; // Import bookmark icon
+
 
 const BookDetails = () => {
   const { id } = useParams(); // useParams hook to get the route parameter
   const [book, setBook] = useState(null); // State to store the book details
   const [loading, setLoading] = useState(true); // Loading state for fetching
+  const [isBookmarked, setIsBookmarked] = useState(false);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const data = await fetchBook({ query: "", category: "", author: "", id }); // fetch the book details using the id
-      console.log("Book Details:", data);
-      setBook(data); // Set the book details in the state
-      setLoading(false);
+    // Fetch book details from API
+    const fetchBookDetails = async () => {
+      const response = await fetch(`https://www.googleapis.com/books/v1/volumes/${id}`);
+      const data = await response.json();
+      setBook(data);
+        setLoading(false);
     };
-    fetchData();
+    
+    fetchBookDetails();
   }, [id]);
 
   // Display loading message while fetching book details
   if (!book) {
     return <p>Loading...</p>;
   }
+
+  const handleBookmark = () => {
+    // Save to localStorage or state
+    const savedBooks = JSON.parse(localStorage.getItem("favorites")) || [];
+    if (!savedBooks.some((savedBook) => savedBook.id === book.id)) {
+      savedBooks.push(book);
+      localStorage.setItem("favorites", JSON.stringify(savedBooks));
+      setIsBookmarked(true);
+    }
+  };
 
   return (
     <>
@@ -29,10 +44,19 @@ const BookDetails = () => {
           Back
         </button>
       </div>
+        
       <div
         className="main-content book-details"
         style={{ display: "flex", gap: "20px", alignItems: "flex-start" }}
       >
+         {/* Bookmark Button */}
+         <div className="bookmark-button" title={isBookmarked ? "Saved!" : "Save"}>
+          <FaBookmark
+            onClick={handleBookmark}
+            color={isBookmarked ? "gold" : "gray"}
+            size={30}
+          />
+        </div>
         <div className="book-cover">
           {book.volumeInfo.imageLinks?.thumbnail ? (
             <img
@@ -66,7 +90,10 @@ const BookDetails = () => {
                   __html:
                     book.volumeInfo.description || "Description not available.",
                 }}
+                
               />
+                  
+
             </>
           ) : (
             <p>Loading book details...</p>
