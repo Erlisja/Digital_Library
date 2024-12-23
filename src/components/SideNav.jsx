@@ -20,7 +20,7 @@ function SideNav({onSearch, onHomeClick}) {
           <Link to="/" onClick={onHomeClick}>Home</Link>
         </li>
         <li>
-          <Link to="/books">Books</Link>
+          <Link to="/downloaded">Downloads</Link>
         </li>
         <li>
           <Link to="/favorites">Favorites</Link>

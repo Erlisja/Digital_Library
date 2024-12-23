@@ -3,22 +3,44 @@ import { useEffect, useState } from "react";
 import fetchBook from "../services/api/fetchBooks";
 import { FaBookmark } from "react-icons/fa"; // Import bookmark icon
 
-
 const BookDetails = () => {
   const { id } = useParams(); // useParams hook to get the route parameter
   const [book, setBook] = useState(null); // State to store the book details
   const [loading, setLoading] = useState(true); // Loading state for fetching
   const [isBookmarked, setIsBookmarked] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
 
+  const downloadBook = (url, format) => {
+    setIsDownloading(true);
+
+    // Triggering the download
+    const fileName = `${book.title}.${format}`;  // Set the file name
+    fetch(url)
+      .then((response) => response.blob())   // Convert the response to a blob object, which is a file-like object of immutable, raw data
+      .then((blob) => {
+        const url = window.URL.createObjectURL(blob);   // Create a URL for the blob object
+        const a = document.createElement("a");  // Create an anchor element to trigger the download 
+        a.href = url;  // Set the URL as the href attribute
+        a.download = fileName;     // Set the file name as the download attribute
+        a.click();                // Trigger the download by clicking the anchor element 
+        setIsDownloading(false);   // Set isDownloading to false after the download is complete
+      })
+      .catch(() => {
+        setIsDownloading(false);
+        alert("Download failed");
+      });
+  };
   useEffect(() => {
     // Fetch book details from API
     const fetchBookDetails = async () => {
-      const response = await fetch(`https://www.googleapis.com/books/v1/volumes/${id}`);
+      const response = await fetch(
+        `https://www.googleapis.com/books/v1/volumes/${id}`
+      );
       const data = await response.json();
       setBook(data);
-        setLoading(false);
+      setLoading(false);
     };
-    
+
     fetchBookDetails();
   }, [id]);
 
@@ -44,13 +66,16 @@ const BookDetails = () => {
           Back
         </button>
       </div>
-        
+
       <div
         className="main-content book-details"
         style={{ display: "flex", gap: "20px", alignItems: "flex-start" }}
       >
-         {/* Bookmark Button */}
-         <div className="bookmark-button" title={isBookmarked ? "Saved!" : "Save"}>
+        {/* Bookmark Button */}
+        <div
+          className="bookmark-button"
+          title={isBookmarked ? "Saved!" : "Save"}
+        >
           <FaBookmark
             onClick={handleBookmark}
             color={isBookmarked ? "gold" : "gray"}
@@ -90,10 +115,26 @@ const BookDetails = () => {
                   __html:
                     book.volumeInfo.description || "Description not available.",
                 }}
-                
               />
-                  
 
+              <div>
+                {book.accessInfo.pdfUrl && (
+                  <button
+                    onClick={() => downloadBook(book.accessInfo.pdf.acsTokenLink, "pdf")}
+                    disabled={isDownloading}
+                  >
+                    {isDownloading ? "Downloading..." : "Download PDF"}
+                  </button>
+                )}
+                {book.accessInfo.epub && (
+                  <button
+                    onClick={() => downloadBook(book.accessInfo.epub.acsTokenLink, "epub")}
+                    disabled={isDownloading}
+                  >
+                    {isDownloading ? "Downloading..." : "Download EPUB"}
+                  </button>
+                )}
+              </div>
             </>
           ) : (
             <p>Loading book details...</p>
