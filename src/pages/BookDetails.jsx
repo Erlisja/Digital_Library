@@ -10,26 +10,55 @@ const BookDetails = () => {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
 
+
   const downloadBook = (url, format) => {
     setIsDownloading(true);
+    console.log(`Downloading ${format} file...`);
 
-    // Triggering the download
-    const fileName = `${book.title}.${format}`;  // Set the file name
+    const fileName = `${book.volumeInfo.title}.${format}`;
     fetch(url)
-      .then((response) => response.blob())   // Convert the response to a blob object, which is a file-like object of immutable, raw data
-      .then((blob) => {
-        const url = window.URL.createObjectURL(blob);   // Create a URL for the blob object
-        const a = document.createElement("a");  // Create an anchor element to trigger the download 
-        a.href = url;  // Set the URL as the href attribute
-        a.download = fileName;     // Set the file name as the download attribute
-        a.click();                // Trigger the download by clicking the anchor element 
-        setIsDownloading(false);   // Set isDownloading to false after the download is complete
-      })
-      .catch(() => {
-        setIsDownloading(false);
-        alert("Download failed");
-      });
-  };
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Failed to fetch the file");
+            }
+            return response.blob();
+        })
+        .then((blob) => {
+            const blobUrl = window.URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = blobUrl;
+            a.download = fileName;
+            a.click();
+
+            // Save book details in local storage
+            const savedBooks = JSON.parse(localStorage.getItem("downloadedBooks")) || [];
+            const downloadedBook = {
+                image: book.volumeInfo.imageLinks?.thumbnail || "",  // Save the thumbnail image
+                title: book.volumeInfo.title,
+                author: book.volumeInfo.authors?.join(", ") || "Unknown Author",
+                format: format,
+                filePath: url,   // Save the original URL for re-downloading
+
+            };
+
+            // Avoid duplicates
+            if (!savedBooks.some((b) => b.title === downloadedBook.title && b.format === downloadedBook.format)) {
+                savedBooks.push(downloadedBook);
+                localStorage.setItem("downloadedBooks", JSON.stringify(savedBooks));
+            }
+
+            setIsDownloading(false);
+        })
+        .catch((error) => {
+            setIsDownloading(false);
+            console.error(error.message); // Log the exact error
+            alert("Failed to download the book. Please try again.");
+        });
+};
+
+
+
+  // Fetch book details from API
   useEffect(() => {
     // Fetch book details from API
     const fetchBookDetails = async () => {
@@ -49,6 +78,7 @@ const BookDetails = () => {
     return <p>Loading...</p>;
   }
 
+  // Bookmark the book to save it as a favorite
   const handleBookmark = () => {
     // Save to localStorage or state
     const savedBooks = JSON.parse(localStorage.getItem("favorites")) || [];
@@ -58,6 +88,8 @@ const BookDetails = () => {
       setIsBookmarked(true);
     }
   };
+
+
 
   return (
     <>
@@ -120,7 +152,9 @@ const BookDetails = () => {
               <div>
                 {book.accessInfo.pdfUrl && (
                   <button
-                    onClick={() => downloadBook(book.accessInfo.pdf.acsTokenLink, "pdf")}
+                    onClick={() =>
+                      downloadBook(book.accessInfo.pdf.acsTokenLink, "pdf")
+                    }
                     disabled={isDownloading}
                   >
                     {isDownloading ? "Downloading..." : "Download PDF"}
@@ -128,7 +162,9 @@ const BookDetails = () => {
                 )}
                 {book.accessInfo.epub && (
                   <button
-                    onClick={() => downloadBook(book.accessInfo.epub.acsTokenLink, "epub")}
+                    onClick={() =>
+                      downloadBook(book.accessInfo.epub.acsTokenLink, "epub")
+                    }
                     disabled={isDownloading}
                   >
                     {isDownloading ? "Downloading..." : "Download EPUB"}
