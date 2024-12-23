@@ -209,3 +209,75 @@ footer{
   padding: 5px 15px;
   margin-bottom: 25px;
 }
+
+
+
+
+
+
+.welcome-page {
+  background-image: url('../public/background1.jpeg') ;
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  
+
+
+}
+
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 10px;
+ 
+  padding: 20px;
+}
+.hero-content{
+
+  padding: 20px;
+  /* background:linear-gradient(180deg,#ffffffc1,#59a1c899,#002f49c1); */
+
+  border-radius: 10px;
+
+  
+}
+
+.hero-content h1 {
+  font-size: 3rem;
+  margin-bottom: 10px;
+  color: #ffffff;
+  
+}
+
+.hero-content p {
+  font-size: 1.5rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  color: #ffffff;
+}
+
+.explore-button {
+  background-color: #002f49;
+  color: #ffffff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.explore-button:hover {
+  background-color: #ffffff;
+  color: #002f49;
+  transform: scale(1.05);
+}
+
+.sidebar-hidden {
+  display: none;
+}
+
+

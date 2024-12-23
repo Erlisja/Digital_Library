@@ -17,7 +17,7 @@ function SideNav({onSearch, onHomeClick}) {
         {''}
         <SearchBar  onSearch={(query)=> onSearch(query)} />
         <li>
-          <Link to="/" onClick={onHomeClick}>Home</Link>
+          <Link to="/display" onClick={onHomeClick}>Home</Link>
         </li>
         <li>
           <Link to="/downloaded">Downloads</Link>
