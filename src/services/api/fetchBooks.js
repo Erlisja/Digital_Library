@@ -50,7 +50,7 @@ const fetchBooks = async ({ query = '', category = '', author = '', id}) => {
 
         // encode the search query to make it URL safe
         const encodedQuery = encodeURIComponent(searchTerms.join(' ')); // Space-separated query terms
-        let url = `${BASE_URL}?q=${encodedQuery}&maxResults=10&key=${API_KEY}`;
+        let url = `${BASE_URL}?q=${encodedQuery}&maxResults=50&key=${API_KEY}`;
 
         console.log('url', url);
 
