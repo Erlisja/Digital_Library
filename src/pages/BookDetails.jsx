@@ -171,6 +171,19 @@ const BookDetails = () => {
                   </button>
                 )}
               </div>
+              <div>
+              {/* // read the book online if the web reader link is available */}
+              {book.accessInfo.webReaderLink && (
+                <a
+                  href={book.accessInfo.webReaderLink}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Read Online
+                </a>
+              )}
+            </div>
+
             </>
           ) : (
             <p>Loading book details...</p>

@@ -5,6 +5,7 @@ import { useState } from 'react'
 
 
 
+
 function SideNav({onSearch, onHomeClick}) {
 
 
@@ -12,7 +13,9 @@ function SideNav({onSearch, onHomeClick}) {
 
     <nav>  
      <ul> 
-        <h4>Digital Library</h4>
+      <h4>
+        <Link to='/' style={{color:'white', cursor:'pointer', textDecoration:'none'}}>Digital Library</Link>
+        </h4>
         <br/>  
         {''}
         <SearchBar  onSearch={(query)=> onSearch(query)} />

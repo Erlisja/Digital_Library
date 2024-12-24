@@ -35,12 +35,12 @@ const Favorites = () => {
                   size={30}
                 />
               </div>
-              <Link to={`/books/${book.id}`}>    {/*Redirects the user to the book details page */}
+              <Link to={`/books/${book.id}`} style={{textDecoration:'none', color:'black'}}>    {/*Redirects the user to the book details page */}
                 <img src={book.volumeInfo.imageLinks?.thumbnail} alt={book.volumeInfo.title} />  
-                </Link>
+                
                 <h3 className="title" >{book.volumeInfo.title}</h3>
                 <p className="author">{book.volumeInfo.authors?.join(", ")}</p> 
-             
+             </Link>
             </div>
           ))}
         </div>

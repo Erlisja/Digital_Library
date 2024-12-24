@@ -216,7 +216,7 @@ footer{
 
 
 .welcome-page {
-  background-image: url('../public/background1.jpeg') ;
+  background-image: url('/background1.jpeg') ;
   background-size: cover;
   background-position: center;
   height: 100vh;
