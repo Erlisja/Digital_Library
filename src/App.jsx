@@ -8,6 +8,7 @@ import BookDetails from "./pages/BookDetails";
 import Favorites from "./pages/Favorites";
 import DownloadedBooks from "./pages/DownloadedBooks";
 import WelcomePage from "./pages/WelcomePage";
+import AuthorsPage from "./pages/AuthorsPage";
 
 import "./App.css";
 
@@ -57,6 +58,7 @@ function App() {
         <Route path='/downloaded' element = {<DownloadedBooks />} />
         <Route path="/books/:id" element={<BookDetails />} />
         <Route path="/favorites" element={<Favorites />} />
+        <Route path="/authors" element={<AuthorsPage fetchBooks={fetchBooks} />} />
 
         {/* <Footer /> */}
       </Routes>
